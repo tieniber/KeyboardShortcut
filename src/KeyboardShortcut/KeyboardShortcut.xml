@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="KeyboardShortcut.widget.KeyboardShortcut" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>KeyboardShortcut</name>
+    <description>Allows you to define keyboard shortcuts for buttons on the page.</description>
+
+    <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA/0lEQVQ4jdXSv0oDQRAG8N+FI4gE
+EQWLIAY7K9/hCq30QQ6xErG0sBQ7MVWwywvYJz6GZQ6ChUWQ4J8QRCwyh0eQYKkfDLszO/PN7LfL
+v0eS5cU+LrGKWpjKWsVnxZ5xmqKDZgQamKAeSdXCNM6W8YJNdGrRedBvt9bRRQs32MMxjmJ/jW10
+I3eAtSTLi9dgfwjWJ2xgHJPAFCuVsyF28FHesx6MXdyjh9uIneMRZxjhArsleVWoUpyqv2iFWpLl
+xTuWIvAW3RahaSYkTNI5xl6/3TpcVJ3lxR0OSj/J8qLAVvhTsydahIZvcYcpclyZqfzT55nHKKYe
+4+QX+X8dXxDhRCF/Y8bAAAAAAElFTkSuQmCC</icon>
+    <properties>
+        <property key="shortcuts" type="object" isList= "true" required="false">
+            <caption>Shortcuts</caption>
+            <category>Shortcuts</category>
+            <description>These are the key combinations that should the action of the given button.</description>
+            <properties>
+                <property key="shortcutkey" type="string" required="true">
+                    <caption>Shortcut</caption>
+                    <category>Link</category>
+                    <description>
+This is the keyboard shortcut that should be caught. Examples include alt+s and ctrl+alt+shift+f1. For modifier keys you can use shift, ctrl, alt, option, meta, command, and mod (either ctrl or command depending on platform). Other special keys are backspace, tab, enter, return, capslock, esc, escape, space, pageup, pagedown, end, home, left, up, right, down, ins, and del. Any other key you should be able to reference by name like a, /, $, *, or =.
+                    </description>
+                </property>
+                <property key="buttonclass" type="string" required="true">
+                    <caption>Button Class</caption>
+                    <category>Link</category>
+                    <description>
+Enter the CSS class of the button to be fired here.
+                    </description>
+                </property>
+            </properties>
+        </property>
+    </properties>
+</widget>
+
