@@ -62,8 +62,17 @@ define([
 			
 			clicker = function () {
 				console.log("fireClickEvent: " + this.sclass);
-				var button = dojo.query(this.sclass)[0];
-				button.click();
+				
+				var button, chosenButton;
+				var buttons = dojo.query(this.sclass);
+				for (button of buttons) {
+					if (button.offsetHeight != 0) {
+						chosenButton = button;
+						break;
+					}
+				}
+
+				chosenButton.click();
 				//var widget = dijit.byId(button.id);
 				//widget.onClick();
 					};
