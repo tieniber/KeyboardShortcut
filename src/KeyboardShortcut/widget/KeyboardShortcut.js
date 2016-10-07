@@ -68,6 +68,7 @@ define([
 					
 				var buttonsLength = buttons.length;
 				for (var i = 0; i < buttonsLength; i++) {
+                    button = buttons[i];
 					if (button.offsetHeight != 0) {
 						chosenButton = button;
 						break;
