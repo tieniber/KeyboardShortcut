@@ -4,10 +4,10 @@
     ========================
 
     @file      : KeyboardShortcut.js
-    @version   : 1.1
+    @version   : 1.1.1
     @author    : Eric Tieniber
-    @date      : Thu, 28 Jan 2016 18:00:39 GMT
-    @copyright : 
+    @date      : Thu, 9 Feb 2017 18:00:39 GMT
+    @copyright :
     @license   : Apache 2
 
     Documentation
@@ -19,20 +19,9 @@
 define([
     "dojo/_base/declare",
     "mxui/widget/_WidgetBase",
-
-    "mxui/dom",
-    "dojo/dom",
-    "dojo/dom-prop",
-    "dojo/dom-geometry",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/dom-construct",
-    "dojo/_base/array",
     "dojo/_base/lang",
-    "dojo/text",
-    "dojo/html",
-    "dojo/_base/event"
-], function(declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent) {
+	"dojo/query"
+], function(declare, _WidgetBase, dojoLang, dojoQuery) {
     "use strict";
 
     // Declare widget's prototype.
@@ -40,7 +29,7 @@ define([
 
         // Parameters configured in the Modeler.
 		shortcuts: [],
-		
+
 		//internal variables
 		_shortcut: null,
 
@@ -59,13 +48,13 @@ define([
             logger.debug(this.id + ".postCreate");
 
 			var clicker, i, sc, scope, func;
-			
+
 			clicker = function () {
 				console.log("fireClickEvent: " + this.sclass);
-				
+
 				var button, chosenButton;
-				var buttons = dojo.query(this.sclass);
-					
+				var buttons = dojoQuery(this.sclass);
+
 				var buttonsLength = buttons.length;
 				for (var i = 0; i < buttonsLength; i++) {
                     button = buttons[i];
@@ -73,13 +62,13 @@ define([
 						chosenButton = button;
 						break;
 					}
-				}	
+				}
 
 				chosenButton.click();
 				//var widget = dijit.byId(button.id);
 				//widget.onClick();
 			};
-			
+
 			//loop through all shortcuts
 			for (i = 0; i < this.shortcuts.length; i++) {
 				sc = this.shortcuts[i];
@@ -89,10 +78,10 @@ define([
 
 					action: clicker
 				};
-				func = dojo.hitch(scope, "action");
+				func = dojoLang.hitch(scope, "action");
 				this._shortcut.add(sc.shortcutkey, func);
 			}
-			
+
         },
 
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
@@ -135,7 +124,7 @@ require(["KeyboardShortcut/widget/KeyboardShortcut"], function() {
  * By Binny V A
  * License : BSD
  */
-function Shortcut() {	
+function Shortcut() {
 	this.all_shortcuts = {}, //All the shortcuts are stored in this array
 	this.add = function (shortcut_combination, callback, opt) {
 		//Provide a set of default options
