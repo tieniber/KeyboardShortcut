@@ -1,15 +1,10 @@
-# App Store Widget Boilerplate
+# Keyboard Shortcut Widget
 
-This boilerplate gives you all you need to start a new custom widget for Mendix
-5.6.0 and up.
+## Description
 
-The boilerplate contains:
-- Directory structure
-- Readme.md
-- License
-- JavaScript source
-- XSD for package.xml, to configure properties of the widget, visible inside the
- Mendix business modeler
+This widget allows to connect any clickable object on your page with a keyboard shortcut. Define one or more shortcuts with a single Keyboard Shortcut widget!
+
+Widget is based on shortcuts.js, accessible at  [http://www.openjs.com/scripts/events/keyboard_shortcuts/](http://www.openjs.com/scripts/events/keyboard_shortcuts/)! 
 
 ## Contributing
 
@@ -17,74 +12,27 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Typical usage scenario
 
-Use this template to start building a widget for Mendix 5.
-Alter this README.md file and describe what your widget does.
- 
-## Description
+ - Set your form save button to ctrl+shift+s
+ - Use the escape key to activate the cancel button
+ - Activate a microflow button or other clickable custom widget using a keyboard combination.
+ - Features and limitations
 
-The javascript inside the widget has examples of:
-- Using CSS within a widget
-- Using templating
-- Loading external library's
-- DOM manipulation
-- Event attaching
-- Loading data
-- Executing microflow and sending data
-- Working with the context object, which is an object in the current context
-(e.g. the one displayed in a DataView).
+## Limitations 
 
-### Dojo AMD module list
+The shortcuts.js library supports 5 additional options on each shortcut configured. These have not been implemented yet:
 
-The JavaScript contains an extensive list of modules that may be used to build a
-widget. It is best to reduce this list to what is actually used. Use JSHint to
-help identify errors and problems. 
+ - Event type can be 'keydown','keyup','keypress'. Default: 'keydown'
+ - disable_in_input - If this is set to true, keyboard capture will be disabled in input and textarea fields. If these elements have focus, the keyboard shortcut will not work. This is very useful for single key shortcuts. Default: false
+ - target - DOM Node - The element that should be watched for the keyboard event. Default : document
+ - propagate - Allow the event to propagate? Default : false
+ - keycode - Watch for this keycode. For eg., the keycode '65' is 'a'.
 
-** Be sure to keep the module name array and the parameter list of the anonymous
-function below the module list in sync! **
+## Configuration 
 
-The following modules are necessary for all widgets:
-- dojo/_base/declare
-- mxui/widget/_WidgetBase
-- dijit/_Widget
+ - Add the Keyboard Shortcut to any page with clickable objects (buttons, other custom widgets)
+ - Define a CSS class on the clickable object
+ - Use that CSS class in the configuration of the keyboard shortcut, as well as the keyboard sequence that should activate the object
+ - Special keys for shortcuts are: shift, ctrl, alt, option, meta, command, and mod (either ctrl or command depending on platform). 
+ - Other special keys are backspace, tab, enter, return, capslock, esc, escape, space, pageup, pagedown, end, home, left, up, right, down, ins, and del. Any other key you should be able to reference by name like a, /, $, *, or =.
 
-If your widget does not use an HTML template:
-- Remove dijit/_TemplatedMixin from the module list
-- Remove _Templated from the parameter list of the anonymous function below the module list
-- Remove _Templated from the parameter list of the declare call
-- Remove the templates folder
 
-If your widget does not need jQuery:
-- Remove WidgetName/widget/lib/jquery from the module list
-- Remove _jQuery from the parameter list of the anonymous function below the module list
-- Remove _jQuery from the parameter list of the declare call
-- Remove jquery.js from src\WidgetName\widget\lib\ Or remove the lib folder if you don't include external libraries in the widget.
-
-### AMD caveats
-Working with jQuery can be difficult due to the fact that jquery does not adhere to the AMD standard correctly. Check out [Pull Request #13](https://github.com/mendix/AppStoreWidgetBoilerplate/pull/13) or the [Dojo AMD documentation](http://dojotoolkit.org/documentation/tutorials/1.10/modules/index.html) for details.
-
-## Migrating a widget to Dojo AMD
-
-A widget that uses Dojo AMD may not refer to functions like *dojo.forEach* etc. 
-All necessary modules must be declared on the module list at the top of the source.
-
-Replacing all 'old' Dojo calls in an existing source can be a bit of a pain.
-
-Here is a list of commonly used functions and their new counterpart:
-
-Old | New
----------- |---------- 
-mxui.dom              | domMx
-dojo.byId             | dom.byId
-dojo.query            | document.querySelector
-dojo.forEach          | dojoArray.forEach
-dojo.hitch            | lang.hitch
-dojo.addClass         | domClass.add
-dojo.removeClass      | domClass.remove
-dojo.hasClass         | domClass.contains
-dojo.replaceClass     | domClass.replace
-dojo.empty            | domConstruct.empty
-dojo.place            | domConstruct.place 
-dojo.on               | on
-dojo.window           | win
-  
-The referenced modules are in the module list of the boilerplate JavaScript.
