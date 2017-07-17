@@ -29,10 +29,10 @@ define([
 
         // Parameters configured in the Modeler.
 		shortcuts: [],
+		disableInput: false,
 
 		//internal variables
 		_shortcut: null,
-
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -47,7 +47,7 @@ define([
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
 
-			var clicker, i, sc, scope, func;
+			var clicker, i, sc, scope, func, default_options;
 
 			clicker = function () {
 				console.log("fireClickEvent: " + this.sclass);
@@ -68,7 +68,15 @@ define([
 				//var widget = dijit.byId(button.id);
 				//widget.onClick();
 			};
-
+			
+			// Options to default to. To make them configurable they are added here instead of in shortcut.
+			default_options = {
+			'type': 'keydown',
+			'propagate': false,
+			'disable_in_input': this.disableInput,
+			'target': document,
+			'keycode': false
+			};
 			//loop through all shortcuts
 			for (i = 0; i < this.shortcuts.length; i++) {
 				sc = this.shortcuts[i];
@@ -79,7 +87,7 @@ define([
 					action: clicker
 				};
 				func = dojoLang.hitch(scope, "action");
-				this._shortcut.add(sc.shortcutkey, func);
+				this._shortcut.add(sc.shortcutkey, func,default_options);
 			}
 
         },
@@ -131,7 +139,7 @@ function Shortcut() {
 		var default_options = {
 			'type': 'keydown',
 			'propagate': false,
-			'disable_in_input': false,
+			'disable_in_input': this.disableInput,
 			'target': document,
 			'keycode': false
 		};

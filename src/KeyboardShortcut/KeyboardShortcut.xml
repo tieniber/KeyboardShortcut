@@ -10,6 +10,11 @@ I3eAtSTLi9dgfwjWJ2xgHJPAFCuVsyF28FHesx6MXdyjh9uIneMRZxjhArsleVWoUpyqv2iFWpLl
 xTuWIvAW3RahaSYkTNI5xl6/3TpcVJ3lxR0OSj/J8qLAVvhTsydahIZvcYcpclyZqfzT55nHKKYe
 4+QX+X8dXxDhRCF/Y8bAAAAAAElFTkSuQmCC</icon>
     <properties>
+        <property key="disableInput" type="boolean" defaultValue="false">
+        <caption>Disabled in Inputs</caption>
+        <category>Shortcuts</category>
+        <description>When true keys do not trigger when focused in an input.</description>
+        </property>
         <property key="shortcuts" type="object" isList= "true" required="false">
             <caption>Shortcuts</caption>
             <category>Shortcuts</category>
