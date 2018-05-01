@@ -29,6 +29,7 @@ define([
 
         // Parameters configured in the Modeler.
 		shortcuts: [],
+        limitScope: false,
 
 		//internal variables
 		_shortcut: null,
@@ -44,6 +45,25 @@ define([
 
 		clicker: function(sclass, event) {
 			// console.log("KeyboardShortcut widget: fireClickEvent: " + this.sclass);
+            
+            if (this.limitScope == true) {
+                var scope = dojo.query(this.domNode).parent()[0];
+                var target = dojo.query(event.target);
+                if (target.parents("#" + scope.id).length == 0) {
+                    // the element causing the event isn't part of the scope, return;
+                    return;
+                }
+                
+                // if the event happened within the scope, it should also stop propagation of the event
+                event.cancelBubble = true;
+                event.returnValue = false;
+
+                //e.stopPropagation works in Firefox.
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }
 
 			var button, chosenButton;
 			var buttons = dojoQuery(sclass);
@@ -82,11 +102,15 @@ define([
 
 			//loop through all shortcuts
             for (i = 0; i < this.shortcuts.length; i++) {
-                opt = {};
+                var opts = {};
                 sc = this.shortcuts[i];
                 //find the button to be executed by the shortcut, and define the callback function to fire
                 func = dojoLang.hitch(this, this.clicker, "." + sc.buttonclass);
-                this._shortcut.add(sc.shortcutkey, func, opt);
+                if (this.limitScope == true) {
+                    opts['propagate'] = true;
+                }
+                
+                this._shortcut.add(sc.shortcutkey, func, opts);
             }
 
 
