@@ -29,6 +29,7 @@ define([
 
         // Parameters configured in the Modeler.
 		shortcuts: [],
+        limitScope: false,
 
 		//internal variables
 		_shortcut: null,
@@ -40,47 +41,78 @@ define([
             //logger.level(logger.DEBUG);
             logger.debug(this.id + ".constructor");
 			this._shortcut = new Shortcut();
-
         },
+
+		clicker: function(sclass, event) {
+			// console.log("KeyboardShortcut widget: fireClickEvent: " + this.sclass);
+            
+            if (this.limitScope == true) {
+                var scope = dojo.query(this.domNode).parent()[0];
+                var target = dojo.query(event.target);
+                if (target.parents("#" + scope.id).length == 0) {
+                    // the element causing the event isn't part of the scope, return;
+                    return;
+                }
+                
+                // if the event happened within the scope, it should also stop propagation of the event
+                event.cancelBubble = true;
+                event.returnValue = false;
+
+                //e.stopPropagation works in Firefox.
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }
+
+			var button, chosenButton;
+			var buttons = dojoQuery(sclass);
+
+			var buttonsLength = buttons.length;
+			for (var i = 0; i < buttonsLength; i++) {
+				button = buttons[i];
+				if (button.offsetHeight != 0) {
+					chosenButton = button;
+					break;
+				}
+			}
+
+			if (event.srcElement) {
+				var el = event.srcElement;
+				if (el.getAttribute("widgetid")) {
+					dijit.byId(event.srcElement.getAttribute("widgetid")).onChange();
+				}
+			}
+			
+			try {
+				// chosenButton.focus();
+				chosenButton.click();
+				//var widget = dijit.byId(button.id);
+				//widget.onClick();
+			} catch (err) {
+				console.error("KeyboardShortcut widget: class '" + this.sclass + "' is not defined", err);
+			}
+		},
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
 
-			var clicker, i, sc, scope, func;
-
-			clicker = function () {
-				console.log("fireClickEvent: " + this.sclass);
-
-				var button, chosenButton;
-				var buttons = dojoQuery(this.sclass);
-
-				var buttonsLength = buttons.length;
-				for (var i = 0; i < buttonsLength; i++) {
-                    button = buttons[i];
-					if (button.offsetHeight != 0) {
-						chosenButton = button;
-						break;
-					}
-				}
-
-				chosenButton.click();
-				//var widget = dijit.byId(button.id);
-				//widget.onClick();
-			};
+			var i, sc, scope, func;
 
 			//loop through all shortcuts
-			for (i = 0; i < this.shortcuts.length; i++) {
-				sc = this.shortcuts[i];
-				//find the button to be executed by the shortcut, and define the callback function to fire
-				scope = {
-					sclass: "." + sc.buttonclass,
+            for (i = 0; i < this.shortcuts.length; i++) {
+                var opts = {};
+                sc = this.shortcuts[i];
+                //find the button to be executed by the shortcut, and define the callback function to fire
+                func = dojoLang.hitch(this, this.clicker, "." + sc.buttonclass);
+                if (this.limitScope == true) {
+                    opts['propagate'] = true;
+                }
+                
+                this._shortcut.add(sc.shortcutkey, func, opts);
+            }
 
-					action: clicker
-				};
-				func = dojoLang.hitch(scope, "action");
-				this._shortcut.add(sc.shortcutkey, func);
-			}
 
         },
 
