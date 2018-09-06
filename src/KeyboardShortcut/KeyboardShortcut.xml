@@ -31,11 +31,7 @@ Enter the CSS class of the button to be fired here.
                 </property>
             </properties>
         </property>
-<<<<<<< Updated upstream
         <property key="focusButton" type="boolean" defaultValue="false">
-=======
-        <property key="shortcutkey" type="boolean" defaultvalue="false">
->>>>>>> Stashed changes
             <caption>Focus button before click</caption>
             <category>Behavior</category>
             <description>Whether to focus the button to click before clicking it. This action will de-focus an active text field, thereby ensuring that any data just typed into the active field will be availble in the context object.</description>
