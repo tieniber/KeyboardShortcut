@@ -29,6 +29,9 @@ define([
 
         // Parameters configured in the Modeler.
 		shortcuts: [],
+		disableInput: false,
+		limitScope: false,
+
 
 		//internal variables
 		_shortcut: null,
@@ -47,11 +50,28 @@ define([
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
 
-			var clicker, i, sc, scope, func;
-            var self = this;
+			var clicker, i, sc, scope, func, default_options;
+			var self = this;
 
 			clicker = function () {
 				console.log("fireClickEvent: " + this.sclass);
+
+				if (self.limitScope) {
+					var scope = self.domNode.parentNode;
+					if (!scope.contains(event.target)) {
+						// the element causing the event isn't part of the scope, return;
+						return;
+					}
+					
+					// if the event happened within the scope, it should also stop propagation of the event
+					event.cancelBubble = true;
+					event.returnValue = false;
+					 //e.stopPropagation works in Firefox.
+					if (event.stopPropagation) {
+						event.stopPropagation();
+						event.preventDefault();
+					}
+				}
 
 				var button, chosenButton;
 				var buttons = dojoQuery(this.sclass);
@@ -73,6 +93,14 @@ define([
 				//widget.onClick();
 			};
 
+			// Options to default to. To make them configurable they are added here instead of in shortcut.
+			default_options = {
+				'type': 'keydown',
+				'propagate': false,
+				'disable_in_input': this.disableInput,
+				'target': document,
+				'keycode': false
+				};
 			//loop through all shortcuts
 			for (i = 0; i < this.shortcuts.length; i++) {
 				sc = this.shortcuts[i];
@@ -83,7 +111,10 @@ define([
 					action: clicker
 				};
 				func = dojoLang.hitch(scope, "action");
-				this._shortcut.add(sc.shortcutkey, func);
+				if (this.limitScope == true) {
+                    default_options['propagate'] = true;
+                }
+				this._shortcut.add(sc.shortcutkey, func, default_options);
 			}
 
         },
