@@ -19,13 +19,17 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Limitations 
 
-The shortcuts.js library supports 5 additional options on each shortcut configured. These have not been implemented yet:
+The shortcuts.js library supports 2 additional options on each shortcut configured. These have not been implemented yet:
 
  - Event type can be 'keydown','keyup','keypress'. Default: 'keydown'
+ - keycode - Watch for this keycode. For eg., the keycode '65' is 'a'.
+
+## Recent Features
+
+The following 3 features (already part of the shortcuts.js library) were added recently to the widget:
  - disable_in_input - If this is set to true, keyboard capture will be disabled in input and textarea fields. If these elements have focus, the keyboard shortcut will not work. This is very useful for single key shortcuts. Default: false
  - target - DOM Node - The element that should be watched for the keyboard event. Default : document
  - propagate - Allow the event to propagate? Default : false
- - keycode - Watch for this keycode. For eg., the keycode '65' is 'a'.
 
 ## Configuration 
 
