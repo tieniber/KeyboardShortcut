@@ -48,6 +48,7 @@ define([
             logger.debug(this.id + ".postCreate");
 
 			var clicker, i, sc, scope, func;
+            var self = this;
 
 			clicker = function () {
 				console.log("fireClickEvent: " + this.sclass);
@@ -64,6 +65,9 @@ define([
 					}
 				}
 
+                if (self.focusButton) {
+                    chosenButton.focus();
+                }
 				chosenButton.click();
 				//var widget = dijit.byId(button.id);
 				//widget.onClick();
@@ -161,6 +165,7 @@ function Shortcut() {
 			}
 
 			//Find Which key is pressed
+			var code = null;
 			if (e.keyCode) code = e.keyCode;
 			else if (e.which) code = e.which;
 			var character = String.fromCharCode(code).toLowerCase();
