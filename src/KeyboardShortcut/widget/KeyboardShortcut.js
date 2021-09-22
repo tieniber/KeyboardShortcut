@@ -31,6 +31,7 @@ define([
 		shortcuts: [],
 		disableInput: false,
 		limitScope: false,
+		limitScopeButton: false,
 
 
 		//internal variables
@@ -79,7 +80,7 @@ define([
 				var buttonsLength = buttons.length;
 				for (var i = 0; i < buttonsLength; i++) {
                     button = buttons[i];
-					if (button.offsetHeight != 0) {
+					if (button.offsetHeight != 0 && (!self.limitScopeButton || scope.contains(button))) {
 						chosenButton = button;
 						break;
 					}
