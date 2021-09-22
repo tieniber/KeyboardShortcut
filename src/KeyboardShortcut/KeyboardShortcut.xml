@@ -20,7 +20,13 @@ xTuWIvAW3RahaSYkTNI5xl6/3TpcVJ3lxR0OSj/J8qLAVvhTsydahIZvcYcpclyZqfzT55nHKKYe
 			<category>Behavior</category>
 			<description>Setting this to true limits the listening to keyboard events if the key is pressed when focus is at an element which is within this container.
 			</description>
-		</property>
+	</property>
+	<property key="limitScopeButton" type="boolean" required="true" defaultValue="false">
+			<caption>Limit scope Button scope</caption>
+			<category>Behavior</category>
+			<description>Setting this to true limits the triggering of the button to buttons with this container. Very useful for using this widget in a snippet that show multiple times on a page.
+			</description>
+	</property>
         <property key="shortcuts" type="object" isList= "true" required="false">
             <caption>Shortcuts</caption>
             <category>Shortcuts</category>
